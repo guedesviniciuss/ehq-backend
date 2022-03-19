@@ -1,0 +1,27 @@
+version: "3.9"
+services:
+  db:
+    container_name: ehq_db
+    image: postgres
+    restart: always
+    ports: 
+      - 5432:5432
+    environment:
+      POSTGRES_DB: example
+      POSTGRES_USER: example
+      POSTGRES_PASSWORD: example
+    volumes:
+      - pgdata:/data/postgres
+  app:
+    container_name: ehq_api
+    build: .
+    ports:
+      - "3000:80"
+    links: 
+      - db
+    depends_on:
+      - db
+
+volumes:
+  pgdata:
+    driver: local
